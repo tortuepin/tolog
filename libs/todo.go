@@ -1,0 +1,75 @@
+package tolog
+
+//import "fmt"
+import "bufio"
+import "strings"
+
+const TodoHeader = "## todo"
+
+type TodoItem struct {
+	Title string
+	Tag   string
+	Done  bool
+}
+
+func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
+	replaceKey := []string{" ", "", "x", ""}
+	items := []TodoItem{}
+	i := -1
+	tag := ""
+	for scanner.Scan() {
+		current_text := scanner.Text()
+		// todoゾーンが終わったらreturn
+		if strings.HasPrefix(current_text, "## ") {
+			break
+		}
+
+		// todo要素の処理開始
+		r := strings.NewReplacer(replaceKey...)
+		if strings.HasPrefix(r.Replace(current_text), "-[]") {
+			i = i + 1
+			item := TodoItem{}
+			items = append(items, item)
+
+			// section substituiton
+			title_i := strings.Index(current_text, "] ") + 1
+			todo_i := strings.Index(current_text, "- [") + 1
+
+			// タイトル、Doneの処理
+			items[i].Title = current_text[title_i:]
+			if current_text[todo_i:todo_i+1] == "x" {
+				items[i].Done = true
+			} else {
+				items[i].Done = false
+			}
+
+			// タグの処理
+			text_list := strings.Split(current_text, " ")
+			if strings.HasPrefix(text_list[len(text_list)-1], "@") {
+				items[i].Tag = text_list[len(text_list)-1]
+			} else if len(tag) > 0 {
+				items[i].Tag = tag
+			}
+
+		} else {
+			// todoのとこにtodo以外が入ってたときの処理
+
+			// 先頭が@だったときはtagを設定する
+			if strings.HasPrefix(current_text, "@") {
+				tag = current_text
+			}
+			if current_text == "" && tag != "" {
+				tag = ""
+			}
+		}
+
+	}
+	/* DEBUG
+	for _, k := range items {
+		fmt.Println(k.Title)
+		fmt.Println(k.Done)
+		fmt.Println(k.Tag)
+	}
+	*/
+	return items
+} //}}}
