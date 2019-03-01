@@ -5,11 +5,13 @@ import "bufio"
 import "strings"
 
 const TodoHeader = "## todo"
+const TabSetting = 2
 
 type TodoItem struct {
-	Title string
-	Tag   string
-	Done  bool
+	Title string `json:"title"`
+	Tag   string `json:"tag"`
+	Done  bool   `json:"done"`
+	Depth int    `json:"depth"`
 }
 
 func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
@@ -33,10 +35,10 @@ func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
 
 			// section substituiton
 			title_i := strings.Index(current_text, "] ") + 1
-			todo_i := strings.Index(current_text, "- [") + 1
+			todo_i := strings.Index(current_text, "- [") + 3
 
 			// タイトル、Doneの処理
-			items[i].Title = current_text[title_i:]
+			items[i].Title = strings.Trim(current_text[title_i:], " ")
 			if current_text[todo_i:todo_i+1] == "x" {
 				items[i].Done = true
 			} else {
@@ -46,10 +48,14 @@ func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
 			// タグの処理
 			text_list := strings.Split(current_text, " ")
 			if strings.HasPrefix(text_list[len(text_list)-1], "@") {
-				items[i].Tag = text_list[len(text_list)-1]
+				items[i].Tag = strings.Trim(text_list[len(text_list)-1], " ")
 			} else if len(tag) > 0 {
 				items[i].Tag = tag
 			}
+
+			// 深さの処理
+			start_i := strings.Index(current_text, "-")
+			items[i].Depth = start_i / TabSetting
 
 		} else {
 			// todoのとこにtodo以外が入ってたときの処理
@@ -72,4 +78,25 @@ func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
 	}
 	*/
 	return items
+} //}}}
+
+// TodoGetActiveはTodoItemの中からxのついてないやつを抜き出すやつ
+//
+// TodoItemは日付順に並んでいることを仮定する
+func TodoGetActive(items []TodoItem) []TodoItem { // {{{
+	activeItems := []TodoItem{}
+	uniq := make(map[string]int)
+	for _, v := range items {
+		if v.Done == true {
+			continue
+		}
+		_, exist := uniq[v.Title]
+		if exist {
+			activeItems[uniq[v.Title]].Done = v.Done
+		} else {
+			activeItems = append(activeItems, v)
+			uniq[v.Title] = len(activeItems) - 1
+		}
+	}
+	return activeItems
 } //}}}

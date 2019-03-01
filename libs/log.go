@@ -6,10 +6,9 @@ import "strings"
 const LogHeader = "## log"
 
 type LogItem struct {
-	Name     string
-	Tag      []string
-	Contents []string
-	Depth    int
+	Name     string   `json:"name"`
+	Tag      []string `json:"tag"`
+	Contents []string `json:"contents"`
 }
 
 func LogReader(scanner *bufio.Scanner) []LogItem { // {{{
