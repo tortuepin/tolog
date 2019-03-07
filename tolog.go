@@ -1,14 +1,15 @@
 // vim:foldmethod=marker:
 package main
 
-import "fmt"
+//import "fmt"
 import "flag"
 import "log"
 import "os"
 
 //import "bufio"
 import "time"
-import "encoding/json"
+
+//import "encoding/json"
 
 import "./libs"
 
@@ -49,12 +50,19 @@ func main() {
 	//fmt.Println(todos)
 	//fmt.Println(logs)
 	//a := tolog.GetAllItems("test/data/", time.Now(), 20)
-	a := tolog.GetAllItems("./test/data/", time.Date(2019, 2, 27, 0, 0, 0, 0, time.Local), 20)
 	//for _, i := range a {
 	//	fmt.Println(i.Filename, "filename")
 	//	fmt.Println(i.Todo)
 	//	fmt.Println(i.Log)
 	//}
-	jsonByte, err := json.Marshal(a)
-	fmt.Println(string(jsonByte))
+	//jsonByte, err := json.Marshal(a)
+
+	//fmt.Println(string(jsonByte))
+	a := tolog.GetAllItems("./test/data/", time.Date(2019, 2, 27, 0, 0, 0, 0, time.Local), 20)
+	todos := []tolog.TodoItem{}
+	for _, i := range a {
+		todos = append(todos, i.Todo...)
+	}
+	b := tolog.TodoGetActive(todos)
+	tolog.TodoGetTagMap(b)
 }

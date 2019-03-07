@@ -1,6 +1,6 @@
 package tolog
 
-//import "fmt"
+import "fmt"
 import "bufio"
 import "strings"
 
@@ -100,3 +100,22 @@ func TodoGetActive(items []TodoItem) []TodoItem { // {{{
 	}
 	return activeItems
 } //}}}
+
+// TodoGetTagMapはTodoItemをタグをkeyにしたTodoItemのmapを返すやつ
+func TodoGetTagMap(items []TodoItem) ([]string, map[string][]TodoItem) {
+	items_tag := map[string][]TodoItem{}
+	tags := []string{}
+	for _, v := range items {
+		if _, ok := items_tag[v.Tag]; !ok {
+			tags = append(tags, v.Tag)
+		}
+		items_tag[v.Tag] = append(items_tag[v.Tag], v)
+
+	}
+	fmt.Println(len(tags))
+	for _, v := range tags {
+		fmt.Println(v)
+		fmt.Println(items_tag[v])
+	}
+	return tags, items_tag
+}
