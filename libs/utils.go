@@ -5,12 +5,7 @@ import "os"
 import "sort"
 import "log"
 import "bufio"
-
-type TologItem struct {
-	Todo     []TodoItem `json:"todo"`
-	Log      []LogItem  `json:"log"`
-	Filename string     `json:"filename"`
-}
+import "strings"
 
 /*
 	GetFilenamesはdateに指定された日からn日前までの存在するファイル名を返す関数
@@ -78,4 +73,41 @@ func GetAllItems(dir string, date time.Time, n int) []TologItem {
 		tolog_items = append(tolog_items, item)
 	}
 	return tolog_items
+}
+
+// HeaderSearcherはheaderに指定されたsectionの範囲を探すやつ
+func HeaderSearcher(filename string, header string) (int, int) {
+	ret_start := -1
+	ret_end := -1
+	f, err := os.Open(filename)
+	if err != nil {
+		// エラー時の処理
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	i := 1
+
+	// 始まりを見つける
+	for scanner.Scan() {
+		line := strings.Trim(scanner.Text(), " \n")
+		if line == header {
+			ret_start = i
+			i = i + 1
+			break
+		}
+		i = i + 1
+	}
+	// 終わりを見つける
+	for scanner.Scan() {
+		line := strings.Trim(scanner.Text(), " \n")
+		if ret_start != -1 && strings.HasPrefix(line, HeaderPrefix) {
+			break
+		}
+		i = i + 1
+		ret_end = i
+	}
+
+	return ret_start, ret_end
 }
