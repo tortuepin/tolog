@@ -4,16 +4,6 @@ import "fmt"
 import "bufio"
 import "strings"
 
-const TodoHeader = "## todo"
-const TabSetting = 2
-
-type TodoItem struct {
-	Title string `json:"title"`
-	Tag   string `json:"tag"`
-	Done  bool   `json:"done"`
-	Depth int    `json:"depth"`
-}
-
 func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
 	replaceKey := []string{" ", "", "x", ""}
 	items := []TodoItem{}
@@ -93,6 +83,7 @@ func TodoGetActive(items []TodoItem) []TodoItem { // {{{
 		_, exist := uniq[v.Title]
 		if exist {
 			activeItems[uniq[v.Title]].Done = v.Done
+			activeItems[uniq[v.Title]].Tag = v.Tag
 		} else {
 			activeItems = append(activeItems, v)
 			uniq[v.Title] = len(activeItems) - 1
@@ -112,10 +103,36 @@ func TodoGetTagMap(items []TodoItem) ([]string, map[string][]TodoItem) {
 		items_tag[v.Tag] = append(items_tag[v.Tag], v)
 
 	}
-	fmt.Println(len(tags))
-	for _, v := range tags {
-		fmt.Println(v)
-		fmt.Println(items_tag[v])
-	}
+	//fmt.Println(len(tags))
+	//for _, v := range tags {
+	//	fmt.Println(v)
+	//	fmt.Println(items_tag[v])
+	//}
 	return tags, items_tag
+}
+
+// TodoMap2Stringsはタグをkeyにしたmapをtologに書く文字列に変換するやつ
+func TodoMap2Strings(items map[string][]TodoItem, keys []string) []string {
+	s := []string{}
+	for _, k := range keys {
+		s = append(s, k)
+		for _, i := range items[k] {
+			todo := "- ["
+			if i.Done {
+				todo = todo + "x"
+			} else {
+				todo = todo + " "
+			}
+			todo = todo + "] "
+			todo = todo + i.Title
+			todo = strings.Repeat(" ", TabSetting*i.Depth) + todo
+			s = append(s, todo)
+			fmt.Println(i.Depth)
+		}
+		s = append(s, "")
+	}
+	for _, v := range s {
+		fmt.Println(v)
+	}
+	return s
 }
