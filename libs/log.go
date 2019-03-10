@@ -3,14 +3,6 @@ package tolog
 import "bufio"
 import "strings"
 
-const LogHeader = "## log"
-
-type LogItem struct {
-	Name     string   `json:"name"`
-	Tag      []string `json:"tag"`
-	Contents []string `json:"contents"`
-}
-
 func LogReader(scanner *bufio.Scanner) []LogItem { // {{{
 	replaceKey := []string{"0", "?", "1", "?", "2", "?", "3", "?", "4", "?", "5", "?", "6", "?", "7", "?", "8", "?", "9", "?"}
 	items := []LogItem{}
@@ -18,7 +10,7 @@ func LogReader(scanner *bufio.Scanner) []LogItem { // {{{
 	for scanner.Scan() {
 		current_text := scanner.Text()
 		// logゾーンがおわったらreturn
-		if strings.HasPrefix(current_text, "## ") {
+		if strings.HasPrefix(current_text, HeaderPrefix) {
 			return items
 		}
 
