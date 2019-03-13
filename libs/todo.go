@@ -1,6 +1,5 @@
 package tolog
 
-import "fmt"
 import "bufio"
 import "strings"
 
@@ -127,12 +126,8 @@ func TodoMap2Strings(items map[string][]TodoItem, keys []string) []string {
 			todo = todo + i.Title
 			todo = strings.Repeat(" ", TabSetting*i.Depth) + todo
 			s = append(s, todo)
-			fmt.Println(i.Depth)
 		}
 		s = append(s, "")
-	}
-	for _, v := range s {
-		fmt.Println(v)
 	}
 	return s
 }

@@ -1,10 +1,11 @@
 // vim:foldmethod=marker:
 package main
 
-//import "fmt"
+import "fmt"
 import "flag"
 import "log"
-import "os"
+
+//import "os"
 
 //import "bufio"
 import "time"
@@ -22,14 +23,16 @@ func main() {
 	}
 
 	log_file := args[0]
-	f, err := os.Open(log_file)
-	if err != nil {
-		// エラー時の処理
-		log.Fatal(err)
-	}
-	defer f.Close()
+	//f, err := os.Open(log_file)
+	//if err != nil {
+	//	// エラー時の処理
+	//	log.Fatal(err)
+	//}
+	//defer f.Close()
 
 	//scanner := bufio.NewScanner(f)
+	s, e := tolog.HeaderSearcher(log_file, tolog.TodoHeader)
+	fmt.Println("header = ", s, e)
 
 	//logs := []tolog.LogItem{}
 	//todos := []tolog.TodoItem{}
@@ -64,5 +67,7 @@ func main() {
 		todos = append(todos, i.Todo...)
 	}
 	b := tolog.TodoGetActive(todos)
-	tolog.TodoGetTagMap(b)
+	key, todomap := tolog.TodoGetTagMap(b)
+	tolog.TodoMap2Strings(todomap, key)
+
 }

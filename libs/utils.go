@@ -17,7 +17,7 @@ func GetFilenames(dir string, date time.Time, n int) []string {
 	d := date
 	for i := 0; i < n; i++ {
 		d = date.AddDate(0, 0, -i)
-		file := dir + d.Format(DateFormat) + FileType
+		file := dir + "/" + d.Format(DateFormat) + FileType
 		if Exists(file) {
 			files = append(files, file)
 		}
@@ -110,4 +110,34 @@ func HeaderSearcher(filename string, header string) (int, int) {
 	}
 
 	return ret_start, ret_end
+}
+
+// ReadLinesはファイルをstringの配列として読み込むやつ
+func ReadLines(filename string) []string {
+
+	lines := []string{}
+	f, err := os.Open(filename)
+	if err != nil {
+		// エラー時の処理
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	// 始まりを見つける
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines
+}
+
+// SliceReplacerはmainの[]stringのstartからendまでをsubでいれかえるやつ
+func SliceReplacer(main []string, sub []string, start int, end int) []string {
+	ret := main[0:start]
+	for _, l := range sub {
+		ret = append(ret, l)
+	}
+	ret = append(ret, main[end:]...)
+	return ret
 }
