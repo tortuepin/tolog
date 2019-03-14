@@ -9,9 +9,9 @@ function! Tolog_todo_set_active(...)
         let l:option = l:option . " -n " . a:1
     endif
 
-    echo l:func_name . " Start"
+    echo l:func_name . " Start "
     echo l:func_name . " Do " . l:command . l:option
     echo system(l:command . l:option)
-    echo l:func_name . "ReLoad : " . fnamemodify(expand("%"), ":t")
-    echo l:func_name . " Done" . l:command . l:option
+    echo l:func_name . " ReLoad : " . fnamemodify(expand("%"), ":t")
+    echo l:func_name . " Done " . l:command . l:option
 endfunction
