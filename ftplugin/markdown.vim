@@ -13,5 +13,6 @@ function! Tolog_todo_set_active(...)
     echo l:func_name . " Do " . l:command . l:option
     echo system(l:command . l:option)
     echo l:func_name . " ReLoad : " . fnamemodify(expand("%"), ":t")
+    echo execute("e")
     echo l:func_name . " Done " . l:command . l:option
 endfunction
