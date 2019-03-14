@@ -134,7 +134,8 @@ func ReadLines(filename string) []string {
 
 // SliceReplacerはmainの[]stringのstartからendまでをsubでいれかえるやつ
 func SliceReplacer(main []string, sub []string, start int, end int) []string {
-	ret := main[0:start]
+	ret := []string{}
+	copy(ret, main[0:start])
 	for _, l := range sub {
 		ret = append(ret, l)
 	}

@@ -63,11 +63,9 @@ func main() {
 	newTodoLines = append(newTodoLines, tolog.TodoMap2Strings(todoMap, key)...)
 
 	// 差し替える
-
 	ret := tolog.SliceReplacer(lines, newTodoLines, tStart, tEnd)
-	//log.Println(lines[tStart:tEnd])
 
-	//  ファイルを書き換える
+	// ファイルを書き換える
 	fp, err := os.Create(targetFile)
 	if err != nil {
 		log.Fatal(err)
