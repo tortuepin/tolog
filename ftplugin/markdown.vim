@@ -8,5 +8,7 @@ function! Tolog_todo_set_active(...)
         let l:option = l:option . " -n " . a:1
     endif
 
+    echo "do " . l:command . l:option
     echo system(l:command . l:option)
+    echo "done"
 endfunction
