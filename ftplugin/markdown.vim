@@ -1,3 +1,8 @@
+if exists("g:loaded_tolog")
+    finish
+endif
+
+let g:loaded_tolog = 1
 let s:binDir = expand('<sfile>:h:h:gs!\\!/!') . "/bin/"
 
 function! Tolog_todo_set_active(...)
