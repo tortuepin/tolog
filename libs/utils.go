@@ -44,7 +44,7 @@ func GetAllFilenames(dir string) []string {
 		tmp := strings.Split(f, ".")
 		_, err := time.Parse(DateFormat, tmp[0])
 		if err == nil {
-			ret = append(ret, f)
+			ret = append(ret, dir+"/"+f)
 		}
 	}
 	return ret
@@ -63,6 +63,43 @@ func Exists(filename string) bool {
 */
 func GetAllItems(dir string, date time.Time, n int) []TologItem {
 	files := GetFilenames(dir, date, n)
+	tolog_items := []TologItem{}
+	for _, file := range files {
+		item := TologItem{}
+		item.Filename = file
+
+		logs := []LogItem{}
+		todos := []TodoItem{}
+
+		f, err := os.Open(file)
+		if err != nil {
+			// エラー時の処理
+			log.Fatal(err)
+		}
+		defer f.Close()
+
+		scanner := bufio.NewScanner(f)
+
+		for scanner.Scan() {
+			if scanner.Text() == TodoHeader {
+				todos = TodoReader(scanner)
+			}
+			if scanner.Text() == LogHeader {
+				logs = LogReader(scanner)
+			}
+		}
+		if err := scanner.Err(); err != nil {
+			log.Fatal(err)
+		}
+		item.Log = logs
+		item.Todo = todos
+
+		tolog_items = append(tolog_items, item)
+	}
+	return tolog_items
+}
+
+func GetAllItemsFromFilenames(files []string) []TologItem {
 	tolog_items := []TologItem{}
 	for _, file := range files {
 		item := TologItem{}

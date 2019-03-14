@@ -1,6 +1,7 @@
 package tolog
 
 const FileType = ".md"
+const TagFile = ".tags.tolog"
 const DateFormat = "060102"
 const TabSetting = 2
 const HeaderPrefix = "## "
