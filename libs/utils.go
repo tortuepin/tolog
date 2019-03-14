@@ -6,6 +6,9 @@ import "sort"
 import "log"
 import "bufio"
 import "strings"
+import "io/ioutil"
+
+//import "path/filepath"
 
 /*
 	GetFilenamesはdateに指定された日からn日前までの存在するファイル名を返す関数
@@ -24,6 +27,27 @@ func GetFilenames(dir string, date time.Time, n int) []string {
 		sort.SliceStable(files, func(i, j int) bool { return files[i] < files[j] })
 	}
 	return files
+}
+
+/*
+	GetAllFilenamesはdir内の全部のlogファイルを集めてくるやつ
+*/
+func GetAllFilenames(dir string) []string {
+	ret := []string{}
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, fi := range files {
+		// もしちゃんとtologファイルだったらretにいれる
+		f := fi.Name()
+		tmp := strings.Split(f, ".")
+		_, err := time.Parse(DateFormat, tmp[0])
+		if err == nil {
+			ret = append(ret, f)
+		}
+	}
+	return ret
 }
 
 /*
