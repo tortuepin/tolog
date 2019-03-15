@@ -36,3 +36,23 @@ function! Tolog_tag_collect()
     echo l:func_name . " Done " . l:command . l:option
 endfunction
 
+
+function! Tolog_Complete_tag()
+    " タグのリストを返す
+    l:tag_file = g:tolog_dir . "/" . s:tag_file
+    l:tag_list = []
+    for line in readfile(l:tag_file)
+        call add(l:tag_list, line)
+    endfor
+    if l:tag_list == []
+        " tag_listに何も入ってなかったらtag_collectしてもっかい
+        echo l:tag_file . " is empty"
+        echo "call tolog_tag_collect()"
+        call Tolog_tag_collect()
+        for line in readfile(l:tag_file)
+            call add(l:tag_list, line)
+        endfor
+    endif
+
+    return l:tag_list
+endfunction
