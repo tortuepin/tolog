@@ -12,5 +12,6 @@ class Source(Base):
         ret = tags.split("\n")
         print(ret)
         print("nyanko")
+        ret.append("nyanko")
 
         return ret
