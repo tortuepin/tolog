@@ -11,5 +11,6 @@ class Source(Base):
         tags = self.vim.call("Tolog_Complete_tag")
         ret = tags.split("\n")
         print(ret)
+        print("nyanko")
 
         return ret
