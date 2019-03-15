@@ -40,10 +40,10 @@ endfunction
 function! Tolog_Complete_tag()
     " タグのリストを返す
     let l:tag_file = g:tolog_dir . "/" . s:tag_file
-    let l:tag_list = []
+    let l:tag_list = ""
     try
     for line in readfile(l:tag_file)
-        call add(l:tag_list, line)
+        let l:tag_list = l:taglist . "\n"
     endfor
     catch
         " tag_listに何も入ってなかったらtag_collectしてもっかい
@@ -51,7 +51,7 @@ function! Tolog_Complete_tag()
         echo "call tolog_tag_collect()"
         call Tolog_tag_collect()
         for line in readfile(l:tag_file)
-            call add(l:tag_list, line)
+            let l:tag_list = l:taglist . "\n"
         endfor
     endtry
 
