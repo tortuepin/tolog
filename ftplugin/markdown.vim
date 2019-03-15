@@ -41,10 +41,11 @@ function! Tolog_Complete_tag()
     " タグのリストを返す
     let l:tag_file = g:tolog_dir . "/" . s:tag_file
     let l:tag_list = []
+    try
     for line in readfile(l:tag_file)
         call add(l:tag_list, line)
     endfor
-    if l:tag_list == []
+    catch
         " tag_listに何も入ってなかったらtag_collectしてもっかい
         echo l:tag_file . " is empty"
         echo "call tolog_tag_collect()"
@@ -52,7 +53,7 @@ function! Tolog_Complete_tag()
         for line in readfile(l:tag_file)
             call add(l:tag_list, line)
         endfor
-    endif
+    endtry
 
     return l:tag_list
 endfunction
