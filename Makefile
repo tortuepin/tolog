@@ -1,4 +1,8 @@
-install: tolog_set_active_todo.go
+bins = tolog_set_active_todo tolog_tag_collect
+
+
+all: $(bins)
+
+$(bins): 
 	mkdir -p bin
-	go get -d
-	go build -o bin/tolog_set_active_todo tolog_set_active_todo.go
+	go build -o bin/$@ $@.go
