@@ -10,5 +10,6 @@ class Source(Base):
     def gather_candidates(self, context):
         tags = self.vim.call("Tolog_Complete_tag")
         ret = tags.split("\n")
+        print(ret)
 
         return ret
