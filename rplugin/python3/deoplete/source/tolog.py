@@ -6,6 +6,8 @@ class Source(Base):
         self.mark = '[tolog]'
         self.rank = 1000
         self._count = 0
+        self.min_pattern_length = 1
+        self.matcher_key = "@"
 
     def gather_candidates(self, context):
         tags = self.vim.call("Tolog_Complete_tag")
