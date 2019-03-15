@@ -29,7 +29,6 @@ function! Tolog_tag_collect()
     let l:func_name = "[Tolog_tag_collect]"
     let l:command = s:binDir . "tolog_tag_collect"
     let l:option = " -d " . g:tolog_dir
-    let l:option = l:option . " -f " . g:tolog_dir . "/" . 
 
     echo l:func_name . " Start "
     echo l:func_name . " Do " . l:command . l:option
