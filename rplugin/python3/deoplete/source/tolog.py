@@ -8,4 +8,7 @@ class Source(Base):
         self._count = 0
 
     def gather_candidates(self, context):
-        return ['tooooolgo', 'yakusugi']
+        tags = self.vim.call("Tolog_Complete_tag")
+        ret = tags.split("\n")
+
+        return ret
