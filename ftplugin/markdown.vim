@@ -43,7 +43,7 @@ function! Tolog_Complete_tag(...)
     let l:tag_list = ""
     try
     for line in readfile(l:tag_file)
-        let l:tag_list = l:taglist . "\n"
+        let l:tag_list = line . "\n" . l:tag_list
     endfor
     catch
         " tag_listに何も入ってなかったらtag_collectしてもっかい
@@ -51,7 +51,7 @@ function! Tolog_Complete_tag(...)
         echo "call tolog_tag_collect()"
         call Tolog_tag_collect()
         for line in readfile(l:tag_file)
-            let l:tag_list = l:taglist . "\n"
+            let l:tag_list = line . "\n" . l:tag_list
         endfor
     endtry
 
