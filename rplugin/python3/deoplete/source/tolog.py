@@ -12,9 +12,7 @@ class Source(Base):
 
     def gather_candidates(self, context):
         tags = self.vim.call("Tolog_Complete_tag")
-        ret = tags.split("\n")
+        ret = map(lambda x:x.strip("@"), tags.split("\n"))
         print(ret)
-        print("nyanko")
-        ret.append("nyanko")
 
         return ret
