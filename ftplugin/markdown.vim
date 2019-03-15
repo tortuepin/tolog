@@ -37,7 +37,7 @@ function! Tolog_tag_collect()
 endfunction
 
 
-function! Tolog_Complete_tag()
+function! Tolog_Complete_tag(...)
     " タグのリストを返す
     let l:tag_file = g:tolog_dir . "/" . s:tag_file
     let l:tag_list = ""
