@@ -13,6 +13,9 @@ var (
 
 func main() {
 	flag.Parse()
+	if *aDir == "" {
+		log.Fatal("-d option should be set")
+	}
 	d, err := filepath.Abs(*aDir)
 	if err != nil {
 		log.Fatal(*aDir, " can not convert to Abs")
