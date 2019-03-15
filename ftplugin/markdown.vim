@@ -39,8 +39,8 @@ endfunction
 
 function! Tolog_Complete_tag()
     " タグのリストを返す
-    l:tag_file = g:tolog_dir . "/" . s:tag_file
-    l:tag_list = []
+    let l:tag_file = g:tolog_dir . "/" . s:tag_file
+    let l:tag_list = []
     for line in readfile(l:tag_file)
         call add(l:tag_list, line)
     endfor
