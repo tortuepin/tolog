@@ -78,6 +78,11 @@ func TodoGetActive(items []TodoItem) []TodoItem { // {{{
 	for _, v := range items {
 		_, exist := uniq[v.Title]
 		if exist {
+			if v.Done == true {
+				// 削除
+				activeItems = unset(activeItems, uniq[v.Title])
+				delete(uniq[v.Title])
+			}
 			activeItems[uniq[v.Title]].Done = v.Done
 			activeItems[uniq[v.Title]].Tag = v.Tag
 		} else {
