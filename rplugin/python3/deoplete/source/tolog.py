@@ -11,8 +11,12 @@ class Source(Base):
         self.filetype = ['markdown']
 
     def gather_candidates(self, context):
+        try:
+            self.vim.eval("g:tolog_deoplete_on")
+        except Exception as e:
+            print(e)
+            return []
         tags = self.vim.call("Tolog_Complete_tag")
         ret = list(map(lambda x:x.strip("@"), tags.split("\n")))
-        print(ret)
 
         return ret
