@@ -76,14 +76,14 @@ func TodoGetActive(items []TodoItem) []TodoItem { // {{{
 	activeItems := []TodoItem{}
 	uniq := make(map[string]int)
 	for _, v := range items {
-		if v.Done == true {
-			continue
-		}
 		_, exist := uniq[v.Title]
 		if exist {
 			activeItems[uniq[v.Title]].Done = v.Done
 			activeItems[uniq[v.Title]].Tag = v.Tag
 		} else {
+			if v.Done == true {
+				continue
+			}
 			activeItems = append(activeItems, v)
 			uniq[v.Title] = len(activeItems) - 1
 		}
