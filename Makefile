@@ -6,3 +6,6 @@ all: $(bins)
 $(bins): 
 	mkdir -p bin
 	go build -o bin/$@ $@.go
+
+clean:
+	rm -fr bin/*
