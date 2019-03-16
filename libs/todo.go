@@ -78,12 +78,6 @@ func TodoGetActive(items []TodoItem) []TodoItem { // {{{
 	for _, v := range items {
 		_, exist := uniq[v.Title]
 		if exist {
-			if v.Done == true {
-				// 削除
-				activeItems = TodoSliceDeleter(activeItems, uniq[v.Title])
-				delete(uniq, v.Title)
-				continue
-			}
 			activeItems[uniq[v.Title]].Done = v.Done
 			activeItems[uniq[v.Title]].Tag = v.Tag
 		} else {
@@ -94,7 +88,15 @@ func TodoGetActive(items []TodoItem) []TodoItem { // {{{
 			uniq[v.Title] = len(activeItems) - 1
 		}
 	}
-	return activeItems
+
+	ret := []TodoItem{}
+	for _, v := range activeItems {
+		if v.Done == false {
+			ret = append(ret, v)
+		}
+	}
+
+	return ret
 } //}}}
 
 // TodoGetTagMapはTodoItemをタグをkeyにしたTodoItemのmapを返すやつ
