@@ -25,11 +25,7 @@ func GetFilenames(dir string, date time.Time, n int) []string {
 			files = append(files, file)
 		}
 	}
-	log.Println(files)
-	sort.SliceStable(files, func(i, j int) bool { return files[i] > files[j] })
-	log.Println(files)
 	sort.SliceStable(files, func(i, j int) bool { return files[i] < files[j] })
-	log.Println(files)
 	return files
 }
 

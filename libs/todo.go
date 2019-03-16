@@ -82,6 +82,7 @@ func TodoGetActive(items []TodoItem) []TodoItem { // {{{
 				// 削除
 				activeItems = TodoSliceDeleter(activeItems, uniq[v.Title])
 				delete(uniq, v.Title)
+				continue
 			}
 			activeItems[uniq[v.Title]].Done = v.Done
 			activeItems[uniq[v.Title]].Tag = v.Tag
