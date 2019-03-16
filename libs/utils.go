@@ -207,3 +207,11 @@ func SliceReplacer(main []string, sub []string, start int, end int) []string {
 	ret = append(ret, main[end:]...)
 	return ret
 }
+
+func TodoSliceDeleter(s []TodoItem, i int) []TodoItem {
+	s = append(s[:i], s[i+1:]...)
+	//新しいスライスを用意することがポイント
+	n := make([]TodoItem, len(s))
+	copy(n, s)
+	return n
+}
