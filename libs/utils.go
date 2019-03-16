@@ -24,8 +24,8 @@ func GetFilenames(dir string, date time.Time, n int) []string {
 		if Exists(file) {
 			files = append(files, file)
 		}
-		sort.SliceStable(files, func(i, j int) bool { return files[i] < files[j] })
 	}
+	sort.SliceStable(files, func(i, j int) bool { return files[i] < files[j] })
 	return files
 }
 
