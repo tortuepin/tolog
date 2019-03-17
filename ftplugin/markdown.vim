@@ -69,7 +69,10 @@ function! Tolog_log_search_bytag(...)
     let l:ret = systemlist(l:command.l:option.l:args)
     let l:fname = tempname()
     echo l:fname
-    let l:com = "vs +call\\ append(0,l:ret) " . l:fname
+    vs
+    let l:com = "edit +call\\ append(0,l:ret) " . l:fname
     echo l:com
     execute l:com
+    nnoremap <buffer> q <C-w>c
+    setlocal bufhidden=hide buftype=nofile noswapfile nobuflisted
 endfunction
