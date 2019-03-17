@@ -75,7 +75,7 @@ func main() {
 	*/
 
 	for _, d := range dates {
-		fmt.Println(d)
+		fmt.Println("##", d)
 		for _, l := range retLogs[d] {
 			tolog.LogPrinter(l)
 			fmt.Println()
