@@ -55,7 +55,8 @@ func main() {
 						if !ok {
 							dates = append(dates, date.Format(tolog.DateFormat))
 						}
-						retLogs[date.Format(tolog.DateFormat)] = append(retLogs[tologItems.Filename], log)
+						retLogs[date.Format(tolog.DateFormat)] = append(retLogs[date.Format(tolog.DateFormat)], log)
+						break
 					}
 				}
 			}
