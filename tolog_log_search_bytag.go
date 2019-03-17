@@ -9,9 +9,9 @@ import "fmt"
 import "./libs"
 
 var (
-	aDir  = flag.String("d", "", "dataディレクトリの場所")
-	aFile = flag.String("f", "", "開始ファイル名")
-	aN    = flag.Int("n", 0, "何日前までみるか(指定なしだとぜんぶ)")
+	aDir = flag.String("d", "", "dataディレクトリの場所")
+	//aFile = flag.String("f", "", "開始ファイル名")
+	aN = flag.Int("n", 0, "何日前までみるか(指定なしだとぜんぶ)")
 )
 
 func main() {
@@ -22,18 +22,18 @@ func main() {
 	if !tolog.Exists(*aDir) {
 		log.Fatal("directory : '", *aDir, "' is not Exist")
 	}
-	// ファイル名からその日付のtimeオブジェクトをつくる
-	targetDate, err := time.Parse(tolog.DateFormat+tolog.FileType, *aFile)
-	if err != nil {
-		log.Fatal(targetDate, " is not match filename format. [", tolog.DateFormat, "]")
-	}
 
 	// ファイル名取得
-	filenames := []string{}
-	if *aN <= 0 {
-		filenames = tolog.GetAllFilenames(*aDir)
+	filenames := tolog.GetAllFilenames(*aDir)
+	n := 0
+	if *aN < len(filenames) {
+		n = *aN
 	} else {
-		filenames = tolog.GetFilenames(*aDir, targetDate, *aN)
+		n = len(filenames)
+	}
+
+	if n > 0 {
+		filenames = filenames[len(filenames)-n : len(filenames)]
 	}
 
 	// 全部のItemを取得
