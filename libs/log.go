@@ -2,6 +2,7 @@ package tolog
 
 import "bufio"
 import "strings"
+import "fmt"
 
 func LogReader(scanner *bufio.Scanner) []LogItem { // {{{
 	replaceKey := []string{"0", "?", "1", "?", "2", "?", "3", "?", "4", "?", "5", "?", "6", "?", "7", "?", "8", "?", "9", "?"}
@@ -49,3 +50,13 @@ func LogReader(scanner *bufio.Scanner) []LogItem { // {{{
 	*/
 	return items
 } // }}}
+
+func LogPrinter(log LogItem) {
+	fmt.Print("[" + log.Name + "]")
+	for _, t := range log.Tag {
+		fmt.Print(" " + t)
+	}
+	for _, c := range log.Contents {
+		fmt.Println(c)
+	}
+}
