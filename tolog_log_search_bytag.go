@@ -17,7 +17,6 @@ var (
 func main() {
 	flag.Parse()
 	tags := flag.Args()
-	log.Println(tags)
 
 	// 引数の検証
 	if !tolog.Exists(*aDir) {
