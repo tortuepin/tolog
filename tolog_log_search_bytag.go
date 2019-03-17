@@ -10,8 +10,7 @@ import "./libs"
 
 var (
 	aDir = flag.String("d", "", "dataディレクトリの場所")
-	//aFile = flag.String("f", "", "開始ファイル名")
-	aN = flag.Int("n", 0, "何日前までみるか(指定なしだとぜんぶ)")
+	aN   = flag.Int("n", 0, "何日前までみるか(指定なしだとぜんぶ)")
 )
 
 func main() {
