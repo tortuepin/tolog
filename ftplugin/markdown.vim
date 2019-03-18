@@ -1,3 +1,4 @@
+""" vim:set foldmethod=marker:
 if exists("g:loaded_tolog")
     finish
 endif
@@ -76,3 +77,84 @@ function! Tolog_log_search_bytag(...)
     nnoremap <buffer> q <C-w>c
     setlocal bufhidden=hide buftype=nofile noswapfile nobuflisted
 endfunction
+
+
+
+
+""" タイムスタンプ {{{
+function! Time(...)
+    let l:option = ""
+    if a:0 > 0
+        let l:option = " " . join(a:000)
+    endif
+    call append(line('$'), "")
+    call append(line('$'), strftime("[%H:%M]") . l:option)
+    call append(line('$'), "")
+    call append(line('$'), "")
+    call cursor(line('$'), 0)
+endfunction "}}}
+""" 前後の日を開く {{{
+function! GetTodayFilename()
+    let a:next =  strftime("%y%m%d")
+    return s:dir . a:next . ".md"
+endfunction
+function! GetNextFilename()
+    " 次の日のファイル名を出力
+    let a:t = expand("%") " 現在のファイル名
+    let a:date = fnamemodify(a:t, ":t:r")
+    let a:year = strpart(a:date, 0, 2)
+    let a:month = strpart(a:date, 2, 2)
+    let a:day = strpart(a:date, 4, 2)
+
+    let a:d = Localtime("20".a:year, a:month, a:day, 0, 0, 0)
+
+    let day = (60 * 60 * 24)
+    let a:next =  strftime("%y%m%d", a:d + day)
+    return s:dir . a:next . ".md"
+endfunction
+function! GetPrevFilename()
+    " 次の日のファイル名を出力
+    let a:t = expand("%") " 現在のファイル名
+    let a:date = fnamemodify(a:t, ":t:r")
+    let a:year = strpart(a:date, 0, 2)
+    let a:month = strpart(a:date, 2, 2)
+    let a:day = strpart(a:date, 4, 2)
+
+    let a:d = Localtime("20".a:year, a:month, a:day, 0, 0, 0)
+
+    let day = (60 * 60 * 24)
+    let a:next =  strftime("%y%m%d", a:d - day)
+    return s:dir . a:next . ".md"
+endfunction 
+"}}}
+""" テンプレートの読み込み{{{
+function! ReadTemplate()
+    " テンプレートの読み込み
+    execute "0read " . g:tolog_template_dir
+endfunction
+"}}}
+
+
+""" Utils {{{
+function! Localtime(year, month, day, hour, minute, second)
+    " days from 0000/01/01
+    let l:year  = a:month < 3 ? a:year - 1   : a:year
+    let l:month = a:month < 3 ? 12 + a:month : a:month
+    let l:days = 365*l:year + l:year/4 - l:year/100 + l:year/400 + 306*(l:month+1)/10 + a:day - 428
+
+    " days from 0000/01/01 to 1970/01/01
+    " 1970/01/01 == 1969/13/01
+    let l:ybase = 1969
+    let l:mbase = 13
+    let l:dbase = 1
+    let l:basedays = 365*l:ybase + l:ybase/4 - l:ybase/100 + l:ybase/400 + 306*(l:mbase+1)/10 + l:dbase - 428
+
+    " seconds from 1970/01/01
+    return (l:days-l:basedays)*86400 + (a:hour-9)*3600 + a:minute*60 + a:second
+endfunction
+
+
+function! OpenLog(filename)
+    execute "e " . a:filename
+endfunction 
+" }}}
