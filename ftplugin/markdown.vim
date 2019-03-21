@@ -7,7 +7,7 @@ let g:loaded_tolog = 1
 let s:binDir = expand('<sfile>:h:h:gs!\\!/!') . "/bin/"
 let s:tag_file = ".tags.tolog"
 
-function! Tolog_todo_set_active(...)
+function! Tolog_todo_set_active(...) "{{{
     " TODO g:tolog_dirセットしてって"
     let l:func_name = "[Tolog_todo_set_active]"
     let l:command =  s:binDir . "tolog_set_active_todo"
@@ -23,10 +23,8 @@ function! Tolog_todo_set_active(...)
     echo l:func_name . " ReLoad : " . fnamemodify(expand("%"), ":t")
     echo execute("e")
     echo l:func_name . " Done " . l:command . l:option
-endfunction
-
-
-function! Tolog_tag_collect()
+endfunction "}}}
+function! Tolog_tag_collect() "{{{
     let l:func_name = "[Tolog_tag_collect]"
     let l:command = s:binDir . "tolog_tag_collect"
     let l:option = " -d " . g:tolog_dir
@@ -35,10 +33,8 @@ function! Tolog_tag_collect()
     echo l:func_name . " Do " . l:command . l:option
     echo system(l:command . l:option)
     echo l:func_name . " Done " . l:command . l:option
-endfunction
-
-
-function! Tolog_Complete_tag(...)
+endfunction "}}}
+function! Tolog_Complete_tag(...) "{{{
     " タグのリストを返す
     let l:tag_file = g:tolog_dir . "/" . s:tag_file
     let l:tag_list = ""
@@ -57,9 +53,8 @@ function! Tolog_Complete_tag(...)
     endtry
 
     return l:tag_list
-endfunction
-
-function! Tolog_log_search_bytag(...)
+endfunction "}}}
+function! Tolog_log_search_bytag(...) "{{{
     let l:func_name = "[Tolog_log_search_bytag]"
     let l:command = s:binDir . "tolog_log_search_bytag"
     let l:option = " -d " . g:tolog_dir
@@ -76,13 +71,13 @@ function! Tolog_log_search_bytag(...)
     execute l:com
     nnoremap <buffer> q <C-w>c
     setlocal bufhidden=hide buftype=nofile noswapfile nobuflisted
+endfunction "}}}
+function! Tolog_read_template() " {{{
+    " テンプレートの読み込み
+    execute "0read " . g:tolog_template_dir
 endfunction
-
-
-
-
-""" タイムスタンプ {{{
-function! Time(...)
+"}}}
+function! Tolog_add_log(...) "{{{
     let l:option = ""
     if a:0 > 0
         let l:option = " " . join(a:000)
@@ -93,12 +88,16 @@ function! Time(...)
     call append(line('$'), "")
     call cursor(line('$'), 0)
 endfunction "}}}
-""" 前後の日を開く {{{
-function! GetTodayFilename()
+function! Tolog_open_log(filename) "{{{
+    execute "e " . a:filename
+endfunction 
+" }}}
+""" 前後の日を開く Tolog_get_*_filename(){{{
+function! Tolog_get_today_filename()
     let a:next =  strftime("%y%m%d")
     return g:tolog_dir . a:next . ".md"
 endfunction
-function! GetNextFilename()
+function! Tolog_get_next_filename()
     " 次の日のファイル名を出力
     let a:t = expand("%") " 現在のファイル名
     let a:date = fnamemodify(a:t, ":t:r")
@@ -106,13 +105,13 @@ function! GetNextFilename()
     let a:month = strpart(a:date, 2, 2)
     let a:day = strpart(a:date, 4, 2)
 
-    let a:d = Localtime("20".a:year, a:month, a:day, 0, 0, 0)
+    let a:d = s:localtime("20".a:year, a:month, a:day, 0, 0, 0)
 
     let day = (60 * 60 * 24)
     let a:next =  strftime("%y%m%d", a:d + day)
     return g:tolog_dir . a:next . ".md"
 endfunction
-function! GetPrevFilename()
+function! Tolog_get_prev_filename()
     " 次の日のファイル名を出力
     let a:t = expand("%") " 現在のファイル名
     let a:date = fnamemodify(a:t, ":t:r")
@@ -120,23 +119,18 @@ function! GetPrevFilename()
     let a:month = strpart(a:date, 2, 2)
     let a:day = strpart(a:date, 4, 2)
 
-    let a:d = Localtime("20".a:year, a:month, a:day, 0, 0, 0)
+    let a:d = s:localtime("20".a:year, a:month, a:day, 0, 0, 0)
 
     let day = (60 * 60 * 24)
     let a:next =  strftime("%y%m%d", a:d - day)
     return g:tolog_dir . a:next . ".md"
 endfunction 
 "}}}
-""" テンプレートの読み込み{{{
-function! ReadTemplate()
-    " テンプレートの読み込み
-    execute "0read " . g:tolog_template_dir
-endfunction
-"}}}
+
 
 
 """ Utils {{{
-function! Localtime(year, month, day, hour, minute, second)
+function! s:localtime(year, month, day, hour, minute, second)
     " days from 0000/01/01
     let l:year  = a:month < 3 ? a:year - 1   : a:year
     let l:month = a:month < 3 ? 12 + a:month : a:month
@@ -152,9 +146,5 @@ function! Localtime(year, month, day, hour, minute, second)
     " seconds from 1970/01/01
     return (l:days-l:basedays)*86400 + (a:hour-9)*3600 + a:minute*60 + a:second
 endfunction
-
-
-function! OpenLog(filename)
-    execute "e " . a:filename
-endfunction 
 " }}}
+
