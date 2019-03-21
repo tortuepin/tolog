@@ -96,7 +96,7 @@ endfunction "}}}
 """ 前後の日を開く {{{
 function! GetTodayFilename()
     let a:next =  strftime("%y%m%d")
-    return s:dir . a:next . ".md"
+    return g:tolog_dir . a:next . ".md"
 endfunction
 function! GetNextFilename()
     " 次の日のファイル名を出力
@@ -110,7 +110,7 @@ function! GetNextFilename()
 
     let day = (60 * 60 * 24)
     let a:next =  strftime("%y%m%d", a:d + day)
-    return s:dir . a:next . ".md"
+    return g:tolog_dir . a:next . ".md"
 endfunction
 function! GetPrevFilename()
     " 次の日のファイル名を出力
@@ -124,7 +124,7 @@ function! GetPrevFilename()
 
     let day = (60 * 60 * 24)
     let a:next =  strftime("%y%m%d", a:d - day)
-    return s:dir . a:next . ".md"
+    return g:tolog_dir . a:next . ".md"
 endfunction 
 "}}}
 """ テンプレートの読み込み{{{
