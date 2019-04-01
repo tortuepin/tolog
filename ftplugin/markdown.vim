@@ -126,7 +126,16 @@ function! Tolog_get_prev_filename()
     return g:tolog_dir . a:next . ".md"
 endfunction 
 "}}}
-
+""" サイコロをふる Tolog_tumbling_dice(){{{
+function! Tolog_tumbling_dice() range
+    let a:linenum = a:lastline - a:firstline
+    let a:n_dice = s:getRandom(a:linenum)
+    let a:line = getline(a:firstline + a:n_dice)
+    let a:ret = a:n_dice+1 . " : " . a:line
+    echo a:ret
+    call append(a:lastline, ['', a:ret])
+endfunction
+""" }}}
 
 
 """ Utils {{{
@@ -145,6 +154,12 @@ function! s:localtime(year, month, day, hour, minute, second)
 
     " seconds from 1970/01/01
     return (l:days-l:basedays)*86400 + (a:hour-9)*3600 + a:minute*60 + a:second
+endfunction
+
+function! s:getRandom(max)
+    let a:match_end = matchend(reltimestr(reltime()), '\d\+\.') + 1
+    let a:rand = reltimestr(reltime())[a:match_end : ] % (a:max + 1)
+    return a:rand
 endfunction
 " }}}
 
