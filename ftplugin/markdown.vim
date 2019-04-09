@@ -128,12 +128,20 @@ endfunction
 "}}}
 """ サイコロをふる Tolog_tumbling_dice(){{{
 function! Tolog_tumbling_dice() range
-    let a:linenum = a:lastline - a:firstline
-    let a:n_dice = s:getRandom(a:linenum)
+    let a:linenum = a:lastline - a:firstline + 1
+
+    let l:func_name = "[Tolog_tumbling_dice]"
+    let l:command =  s:binDir . "tolog_get_random"
+    let l:option = " -n " . a:linenum
+
+    echo l:func_name . " Start "
+
+    let a:n_dice = system(l:command . l:option)
     let a:line = getline(a:firstline + a:n_dice)
     let a:ret = a:n_dice+1 . " : " . a:line
-    echo a:ret
+    echo l:func_name . " ret = " . a:ret
     call append(a:lastline, ['', a:ret])
+    echo l:func_name . " Done "
 endfunction
 """ }}}
 
