@@ -128,3 +128,17 @@ Tolog_tag_collectで集められたtagを返す。
 複数行を選択してこの関数を呼び出すとその中からランダムに1行抜き出して表示する。
 
 
+## 設定例
+```
+let g:tolog_dir = "log/"
+let g:tolog_template_dir = g:tolog_dir . "template.md"
+
+
+command! -nargs=* -complete=custom,Tolog_Complete_tag T call Tolog_add_log(<f-args>) " :Tでlog追記
+command! -nargs=* -complete=custom,Tolog_Complete_tag SearchByTag call Tolog_log_search_bytag(<f-args>) "SearchByTag @tag でtag検索
+command! On call Tolog_open_log(Tolog_get_next_filename()) " 次の日のlog開く
+command! Op call Tolog_open_log(Tolog_get_prev_filename()) " 前の日のlogを開く
+command! Ot call Tolog_open_log(Tolog_get_today_filename()) " 今日のlogを開く
+command! ReadTemp call Tolog_read_template() " テンプレートの読み込み
+command! -range Dice <line1>,<line2>call Tolog_tumbling_dice() "サイコロをふる
+```
