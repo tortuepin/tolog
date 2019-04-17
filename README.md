@@ -142,3 +142,10 @@ command! Ot call Tolog_open_log(Tolog_get_today_filename()) " 今日のlogを開
 command! ReadTemp call Tolog_read_template() " テンプレートの読み込み
 command! -range Dice <line1>,<line2>call Tolog_tumbling_dice() "サイコロをふる
 ```
+
+
+## tolog_deoplete_source
+
+https://github.com/tortuepin/tolog_deoplete_source
+
+deopleteを使っている場合、上記のsourceを使うことでtagを入力する際に補完が効くようになる。
