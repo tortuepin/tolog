@@ -12,6 +12,10 @@ vimでメモ/ログをとるためのプラグイン
 
 ![](https://github.com/tortuepin/tolog/blob/images/images/tolog_image.png)
 
+
+※下記の設定例の通りに設定した場合の動作
+![](https://github.com/tortuepin/tolog/blob/images/images/tolog_mo.gif)
+
 ## インストール
 
 ### 手動
