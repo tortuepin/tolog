@@ -1,3 +1,4 @@
+// vim:set foldmethod=marker:
 package tolog
 
 import "time"
@@ -11,7 +12,7 @@ import "io/ioutil"
 //import "path/filepath"
 
 /*
-	GetFilenamesはdateに指定された日からn日前までの存在するファイル名を返す関数
+	GetFilenamesはdateに指定された日からn日前までの存在するファイル名を返す関数 // {{{
 
 	dirは"path/"みたいに、最後に/つけること
 */
@@ -27,10 +28,10 @@ func GetFilenames(dir string, date time.Time, n int) []string {
 	}
 	sort.SliceStable(files, func(i, j int) bool { return files[i] < files[j] })
 	return files
-}
+} // }}}
 
 /*
-	GetAllFilenamesはdir内の全部のlogファイルを集めてくるやつ
+	GetAllFilenamesはdir内の全部のlogファイルを集めてくるやつ //{{{
 */
 func GetAllFilenames(dir string) []string {
 	ret := []string{}
@@ -48,25 +49,25 @@ func GetAllFilenames(dir string) []string {
 		}
 	}
 	return ret
-}
+} // }}}
 
 /*
-	Existsはファイルの存在をチェックするやつ
+	Existsはファイルの存在をチェックするやつ // {{{
 */
 func Exists(filename string) bool {
 	_, err := os.Stat(filename)
 	return err == nil
-}
+} //}}}
 
 /*
-	GetAllItemsはtodo, log, ...,を全部とってくるやつ
+	GetAllItemsはtodo, log, ...,を全部とってくるやつ // {{{
 */
 func GetAllItems(dir string, date time.Time, n int) []TologItem {
 	files := GetFilenames(dir, date, n)
 	return GetAllItemsFromFilenames(files)
-}
+} // }}}
 
-func GetAllItemsFromFilenames(files []string) []TologItem {
+func GetAllItemsFromFilenames(files []string) []TologItem { // {{{
 	tolog_items := []TologItem{}
 	for _, file := range files {
 		item := TologItem{}
@@ -101,9 +102,9 @@ func GetAllItemsFromFilenames(files []string) []TologItem {
 		tolog_items = append(tolog_items, item)
 	}
 	return tolog_items
-}
+} // }}}
 
-// HeaderSearcherはheaderに指定されたsectionの範囲を探すやつ
+// HeaderSearcherはheaderに指定されたsectionの範囲を探すやつ // {{{
 func HeaderSearcher(filename string, header string) (int, int) {
 	ret_start := -1
 	ret_end := -1
@@ -138,9 +139,9 @@ func HeaderSearcher(filename string, header string) (int, int) {
 	}
 
 	return ret_start, ret_end
-}
+} // }}}
 
-// ReadLinesはファイルをstringの配列として読み込むやつ
+// ReadLinesはファイルをstringの配列として読み込むやつ // {{{
 func ReadLines(filename string) []string {
 
 	lines := []string{}
@@ -158,9 +159,9 @@ func ReadLines(filename string) []string {
 		lines = append(lines, scanner.Text())
 	}
 	return lines
-}
+} // }}}
 
-// SliceReplacerはmainの[]stringのstartからendまでをsubでいれかえるやつ
+// SliceReplacerはmainの[]stringのstartからendまでをsubでいれかえるやつ // {{{
 func SliceReplacer(main []string, sub []string, start int, end int) []string {
 	ret := []string{}
 	copy(ret, main[0:start])
