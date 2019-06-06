@@ -1,3 +1,4 @@
+// vim:set foldmethod=marker:
 package tolog
 
 import "bufio"
@@ -69,10 +70,10 @@ func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
 	return items
 } //}}}
 
-// TodoGetActiveはTodoItemの中からxのついてないやつを抜き出すやつ
+// TodoGetActiveはTodoItemの中からxのついてないやつを抜き出すやつ // {{{
 //
 // TodoItemは日付順に並んでいることを仮定する
-func TodoGetActive(items []TodoItem) []TodoItem { // {{{
+func TodoGetActive(items []TodoItem) []TodoItem {
 	activeItems := []TodoItem{}
 	uniq := make(map[string]int)
 	for _, v := range items {
@@ -99,7 +100,7 @@ func TodoGetActive(items []TodoItem) []TodoItem { // {{{
 	return ret
 } //}}}
 
-// TodoGetTagMapはTodoItemをタグをkeyにしたTodoItemのmapを返すやつ
+// TodoGetTagMapはTodoItemをタグをkeyにしたTodoItemのmapを返すやつ // {{{
 func TodoGetTagMap(items []TodoItem) ([]string, map[string][]TodoItem) {
 	items_tag := map[string][]TodoItem{}
 	tags := []string{}
@@ -116,9 +117,9 @@ func TodoGetTagMap(items []TodoItem) ([]string, map[string][]TodoItem) {
 	//	fmt.Println(items_tag[v])
 	//}
 	return tags, items_tag
-}
+} // }}}
 
-// TodoMap2Stringsはタグをkeyにしたmapをtologに書く文字列に変換するやつ
+// TodoMap2Stringsはタグをkeyにしたmapをtologに書く文字列に変換するやつ // {{{
 func TodoMap2Strings(items map[string][]TodoItem, keys []string) []string {
 	s := []string{}
 	for _, k := range keys {
@@ -138,4 +139,4 @@ func TodoMap2Strings(items map[string][]TodoItem, keys []string) []string {
 		s = append(s, "")
 	}
 	return s
-}
+} // }}}
