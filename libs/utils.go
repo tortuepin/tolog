@@ -178,4 +178,22 @@ func TodoSliceDeleter(s []TodoItem, i int) []TodoItem {
 	n := make([]TodoItem, len(s))
 	copy(n, s)
 	return n
+} // }}}
+
+// IsTag(s string) bool は与えられた文字列がtagかどうかを判定するやつ
+func IsTag(s string) bool {
+	for _, p := range TagPrifix {
+		if strings.HasPrefix(s, p) {
+			return true
+		}
+	}
+	return false
+}
+func IsAtTag(s string) bool {
+	for _, p := range TagAtPrifix {
+		if strings.HasPrefix(s, p) {
+			return true
+		}
+	}
+	return false
 }

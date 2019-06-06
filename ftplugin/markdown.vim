@@ -58,7 +58,7 @@ function! Tolog_log_search_bytag(...) "{{{
     let l:func_name = "[Tolog_log_search_bytag]"
     let l:command = s:binDir . "tolog_log_search_bytag"
     let l:option = " -d " . g:tolog_dir
-    let l:args = " " . join(a:000)
+    let l:args = ' "' . join(a:000,'" "') . '"'
 
     echo l:func_name . " Start "
     echo l:func_name . " Do " . l:command.l:option.l:args

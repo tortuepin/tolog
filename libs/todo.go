@@ -37,7 +37,9 @@ func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
 
 			// タグの処理
 			text_list := strings.Split(current_text, " ")
-			if strings.HasPrefix(text_list[len(text_list)-1], "@") {
+			//if strings.HasPrefix(text_list[len(text_list)-1], "@") {
+			// MEMO 現状todoタグは一つしか登録できないのでIsTagではなくIsAtTagを使う
+			if IsAtTag(text_list[len(text_list)-1]) {
 				items[i].Tag = strings.Trim(text_list[len(text_list)-1], " ")
 			} else if len(tag) > 0 {
 				items[i].Tag = tag
@@ -50,8 +52,9 @@ func TodoReader(scanner *bufio.Scanner) []TodoItem { //{{{
 		} else {
 			// todoのとこにtodo以外が入ってたときの処理
 
-			// 先頭が@だったときはtagを設定する
-			if strings.HasPrefix(current_text, "@") {
+			// 先頭がTagPrifixだったときはtagを設定する
+			//if strings.HasPrefix(current_text, "@") {
+			if IsAtTag(current_text) {
 				tag = current_text
 			}
 			if current_text == "" && tag != "" {

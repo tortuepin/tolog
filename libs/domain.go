@@ -8,6 +8,12 @@ const HeaderPrefix = "## "
 const TodoHeader = "## todo"
 const LogHeader = "## log"
 
+// 先頭に来れるタグ
+var TagAtPrifix = []string{"@"}
+
+// タグ全部
+var TagPrifix = []string{"#", "@"}
+
 type TologItem struct {
 	Todo     []TodoItem `json:"todo"`
 	Log      []LogItem  `json:"log"`

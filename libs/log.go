@@ -26,7 +26,9 @@ func LogReader(scanner *bufio.Scanner) []LogItem { // {{{
 			header := strings.Split(strings.TrimRight(current_text, " "), " ")
 			if len(header) > 1 {
 				for k := 1; k < len(header); k++ {
-					items[i].Tag = append(items[i].Tag, header[k])
+					if IsTag(header[k]) {
+						items[i].Tag = append(items[i].Tag, header[k])
+					}
 				}
 			}
 

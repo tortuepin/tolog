@@ -44,11 +44,13 @@ func main() {
 	// mapとか使ったらできるかも
 	retLogs := map[string][]tolog.LogItem{}
 	dates := []string{}
+	hit_num := 0
 	for _, tologItems := range allItems {
 		for _, log := range tologItems.Log {
 			for _, tag := range log.Tag {
 				for _, targettag := range tags {
 					if tag == targettag {
+						hit_num = hit_num + 1
 						base := filepath.Base(tologItems.Filename)
 						date, _ := time.Parse(tolog.DateFormat+tolog.FileType, base)
 						_, ok := retLogs[date.Format(tolog.DateFormat)]
@@ -74,6 +76,7 @@ func main() {
 		みたいな
 	*/
 
+	fmt.Println("Hit:", hit_num)
 	for _, d := range dates {
 		fmt.Println("##", d)
 		for _, l := range retLogs[d] {
