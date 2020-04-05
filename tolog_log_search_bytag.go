@@ -9,8 +9,9 @@ import "fmt"
 import "./libs"
 
 var (
-	aDir = flag.String("d", "", "dataディレクトリの場所")
-	aN   = flag.Int("n", 0, "何日前までみるか(指定なしだとぜんぶ)")
+	aDir  = flag.String("d", "", "dataディレクトリの場所")
+	aN    = flag.Int("n", 0, "何日前までみるか(指定なしだとぜんぶ)")
+	aJson = flag.Bool("json", false, "jsonで出力する")
 )
 
 func main() {
@@ -75,6 +76,9 @@ func main() {
 		190227
 		みたいな
 	*/
+	if *aJson {
+		fmt.Println("json")
+	}
 
 	fmt.Println("Hit:", hit_num)
 	for _, d := range dates {
